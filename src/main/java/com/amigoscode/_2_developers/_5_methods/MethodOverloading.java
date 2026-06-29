@@ -11,28 +11,46 @@ public class MethodOverloading {
 
     // TODO: 1 - Create a method: int add(int a, int b)
     //  Returns the sum of two integers.
+    int add(int a, int b) {
+        return a + b;
+    }
 
 
     // TODO: 2 - Create an overloaded method: int add(int a, int b, int c)
     //  Returns the sum of three integers.
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
 
 
     // TODO: 3 - Create an overloaded method: double add(double a, double b)
     //  Returns the sum of two doubles.
-
+    double add(double a, double b) {
+        return a + b;
+    }
 
     // TODO: 4 - Create a method: String format(String value)
     //  Returns the string wrapped in square brackets, e.g., "[hello]".
+    String format(String value) {
+        return "["+value+"]";
+    }
 
 
     // TODO: 5 - Create an overloaded method: String format(int value)
     //  Returns the integer formatted with leading zeros to 5 digits.
     //  Example: format(42) returns "00042".
     //  Hint: use String.format("%05d", value)
+    String format(int value) {
+        return String.format("%05d", value);
+    }
 
 
     // TODO: 6 - Create an overloaded method: String format(String label, int value)
     //  Returns "label: value", e.g., format("Score", 95) returns "Score: 95".
+    String format(String label, int value) {
+        return String.format(label+":%d", value);
+    }
+
 
 
     public static void main(String[] args) {
@@ -46,6 +64,12 @@ public class MethodOverloading {
         //  - format(42)
         //  - format("Score", 95)
         //  Print each result with a descriptive label.
+        System.out.println(mo.add(2, 3));
+        System.out.println(mo.add(1, 2, 3));
+        System.out.println(mo.add(1.5, 2.5));
+        System.out.println(mo.format("hello"));
+        System.out.println(mo.format(42));
+        System.out.println(mo.format("Score", 95));
 
     }
 }
