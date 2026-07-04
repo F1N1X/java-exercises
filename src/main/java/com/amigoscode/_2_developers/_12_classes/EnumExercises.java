@@ -13,6 +13,25 @@ public class EnumExercises {
     //  SPRING, SUMMER, AUTUMN, WINTER
     //  For now, just declare them without any fields or methods.
 
+    enum Season {
+        SPRING("Flowers"),
+        SUMMER("Sommer sunset"),
+        AUTUMN("Leaves fall"),
+        WINTER("Snow falls");
+
+        private final String description;
+
+        Season(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+
+
 
     // TODO: 2 - Modify the Season enum to add:
     //  - A private final String 'description' field
@@ -35,6 +54,22 @@ public class EnumExercises {
     //  - A constructor that takes an int level
     //  - A getter getLevel()
 
+    enum Priority {
+        LOW(1),
+        MEDIUM(2),
+        HIGH(3);
+
+        private final int level;
+
+        Priority(int level) {
+            this.level = level;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+    }
+
 
     public static void main(String[] args) {
         System.out.println("=== Season Switch ===");
@@ -42,6 +77,18 @@ public class EnumExercises {
         //  For each season, print a message like "Spring: Flowers bloom"
         //  using the getDescription() method.
         //  Test with Season.SUMMER.
+        Season season = Season.SUMMER;
+
+        switch (season) {
+            case SPRING ->
+                    System.out.println("Spring: " + season.getDescription());
+            case SUMMER ->
+                    System.out.println("Summer: " + season.getDescription());
+            case AUTUMN ->
+                    System.out.println("Autumn: " + season.getDescription());
+            case WINTER ->
+                    System.out.println("Winter: " + season.getDescription());
+        }
 
 
         System.out.println("\n=== Iterate Over Enum Values ===");
@@ -49,6 +96,23 @@ public class EnumExercises {
         //  Loop through them and print each one with its description and ordinal.
         //  Example output: "0: SPRING - Flowers bloom"
         //  Also iterate over Priority.values() and print each with its level.
+
+        System.out.println("\n=== Iterate Over Enum Values ===");
+
+        for (var seasons : Season.values()) {
+            System.out.println(
+                    seasons.ordinal() + ": " +
+                            seasons + " - " +
+                            seasons.getDescription()
+            );
+        }
+
+        for (Priority priority : Priority.values()) {
+            System.out.println(
+                    priority + " - Level: " +
+                            priority.getLevel()
+            );
+        }
 
     }
 }
