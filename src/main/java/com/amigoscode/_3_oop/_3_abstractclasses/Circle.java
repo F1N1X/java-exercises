@@ -17,6 +17,7 @@ public class Circle {
 
     // TODO: 2 - Declare a private field:
     //   - radius (double)
+    private double radius;
 
 
     // TODO: 3 - Create a constructor that takes a radius.

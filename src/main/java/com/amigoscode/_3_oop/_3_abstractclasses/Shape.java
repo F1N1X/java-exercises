@@ -47,8 +47,8 @@ abstract public class Shape {
     @Override
     public String toString() {
         return "Shape{" +
-                "area" + area()+
-                "perimeter"  + perimeter()+
+                "area: " + String.format("%.2f", area())+
+                "perimeter: "  + perimeter()+
                 "}";
     }
 }
