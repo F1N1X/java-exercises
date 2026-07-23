@@ -21,7 +21,7 @@ abstract public class Shape {
     // TODO: 2 - Declare an abstract method: double area()
     //   Abstract methods have no body — just the signature followed by ;
     //   Every subclass of Shape must implement this method.
-    abstract double area();
+    public abstract double area();
 
 
     // TODO: 3 - Declare an abstract method: double perimeter()
