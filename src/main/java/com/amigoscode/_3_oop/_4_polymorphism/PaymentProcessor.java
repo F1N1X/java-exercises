@@ -75,5 +75,9 @@ class PaymentDemo {
         //     payment = new PayPalPayment("user@email.com");
         //     payment.processPayment(200.0);
 
+
+        Payment payment = new BankTransferPayment("IB12312312");
+        payment.processPayment(200.0);
+
     }
 }
