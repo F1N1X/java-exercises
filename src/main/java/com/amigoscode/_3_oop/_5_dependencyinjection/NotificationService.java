@@ -1,32 +1,6 @@
 package com.amigoscode._3_oop._5_dependencyinjection;
 
-/**
- * Exercise: Dependency Injection - Notification Service
- *
- * Build a notification system where the NotificationService does NOT
- * create its own dependencies. Instead, it receives them through its
- * constructor (constructor injection). This makes the code flexible,
- * testable, and follows the Dependency Inversion Principle.
- *
- * Key concepts:
- * - Defining an interface for the dependency
- * - Constructor injection (passing dependencies via constructor)
- * - Swapping implementations without changing the dependent class
- * - Programming to an interface
- */
 
-// TODO: 1 - Create a MessageSender interface with a single method:
-//   void send(String to, String message)
-
-
-// TODO: 2 - Create an EmailSender class that implements MessageSender.
-//   Implement send() to print:
-//   "[Email] Sending to <to>: <message>"
-
-
-// TODO: 3 - Create an SmsSender class that implements MessageSender.
-//   Implement send() to print:
-//   "[SMS] Sending to <to>: <message>"
 
 
 // TODO: 4 - Create the NotificationService class.
@@ -35,6 +9,15 @@ package com.amigoscode._3_oop._5_dependencyinjection;
 //     and assigns it to the field. This is constructor injection —
 //     the dependency is provided from outside, not created inside.
 
+public class NotificationService {
+    private final MessageSender messageSender;
+    public NotificationService(MessageSender messageSender) {
+        this.messageSender = messageSender;
+    }
+    public void sendNotification(String to, String message) {
+        messageSender.send(to, message);
+    }
+}
 
 // TODO: 5 - In NotificationService, add a method:
 //   void sendNotification(String to, String message)
@@ -48,6 +31,11 @@ class NotificationDemo {
         //   Call sendNotification("alice@example.com", "Hello via email!").
         //   Then create ANOTHER NotificationService with an SmsSender.
         //   Call sendNotification("+1234567890", "Hello via SMS!").
+        NotificationService notificationService = new NotificationService(new EmailSender());
+        notificationService.sendNotification("alice@example.com", "Hello via email!");
+        System.out.println();
+        NotificationService notificationService2 = new NotificationService(new SmsSender());
+        notificationService2.sendNotification("+1234567890", "Hello via SMS!");
 
 
         // TODO: 7 - Demonstrate swapping implementations:
@@ -57,6 +45,16 @@ class NotificationDemo {
         //   create a new NotificationService and send a message.
         //   Notice how NotificationService code never changed —
         //   only the injected dependency changed.
+        MessageSender sender = new SmsSender();
+        NotificationService service3 = new NotificationService(sender);
+        System.out.println();
+        service3.sendNotification("Test", "Message");
+        System.out.println("Swap");
+        sender = new EmailSender();
+        service3 = new NotificationService(sender);
+        service3.sendNotification("Swapped","New Swapp");
+
+
 
     }
 }
