@@ -1,7 +1,10 @@
 package com.amigoscode._3_oop._6_solid;
 
+import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Exercise: SOLID Principles
@@ -38,15 +41,57 @@ public class SolidExercises {
         }
     }
 
-    // TODO: 1 - Refactor by creating three separate classes:
-    //   - UserValidator with a method: void validate(String name, String email)
+     //- UserValidator with a method: void validate(String name, String email)
     //     that throws IllegalArgumentException for invalid input
+    class UserValidator {
+        public void validate(String name, String email) {
+            if (name == null || email == null || name.isEmpty() || email.isEmpty())
+                throw new IllegalArgumentException();
+            Pattern emailPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                    + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = emailPattern.matcher(email);
+            if (!matcher.matches())
+                throw new IllegalArgumentException("Email is not in valid format");
+        }
+    }
+
+    // TODO: 1 - Refactor by creating three separate classes:
+    //
     //   - UserRepository with a method: void save(String name, String email)
     //     that prints "Saving user <name> to database..."
+
+    class UserRepository {
+        public void save(String name, String email) {
+            System.out.printf("Saving user %s to database...", name);
+        }
+    }
     //   - UserNotifier with a method: void sendWelcome(String email)
     //     that prints "Sending welcome email to <email>..."
+    class UserNotifier {
+        public void sendWelcome(String email) {
+            System.out.printf("Sending welcome email to %s...", email);
+        }
+    }
     //   Then create a refactored UserManager that uses all three via
     //   constructor injection and has a createUser(name, email) method.
+    class UserManager {
+        private UserNotifier userNotifier;
+        private UserRepository userRepository;
+        private UserValidator userValidator;
+
+        public UserManager(UserNotifier UserNotifier, UserRepository userRepository, UserValidator userValidator) {
+            this.userNotifier = UserNotifier;
+            this.userRepository = userRepository;
+            this.userValidator = userValidator;
+        }
+
+        public void createUser(String name, String email) {
+            userValidator.validate(name, email);
+            userNotifier.sendWelcome(email);
+            userRepository.save(name, email);
+        }
+
+    }
 
 
     // =========================================================================
@@ -64,6 +109,30 @@ public class SolidExercises {
             if ("CLEARANCE".equals(type)) return price * 0.50;
             // To add a new type, you must modify THIS method — violates OCP!
             return 0;
+        }
+    }
+
+    interface Discount {
+        double apply(double price);
+    }
+
+    class SeasonalDiscount implements Discount{
+        @Override
+        public double apply(double price) {
+            return 0;
+        }
+    }
+
+    class ClearanceDiscount implements Discount{
+        @Override
+        public double apply(double price) {
+            return 0;
+        }
+    }
+
+    class DiscountCalculator {
+        public double calculate(Discount discount, double price) {
+            return discount.apply(price);
         }
     }
 
