@@ -1,8 +1,5 @@
 package com.amigoscode._3_oop._6_solid;
 
-import java.nio.file.PathMatcher;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,14 +116,14 @@ public class SolidExercises {
     class SeasonalDiscount implements Discount{
         @Override
         public double apply(double price) {
-            return 0;
+            return price * 0.2;
         }
     }
 
     class ClearanceDiscount implements Discount{
         @Override
         public double apply(double price) {
-            return 0;
+            return price * 0.5;
         }
     }
 
@@ -177,6 +174,40 @@ public class SolidExercises {
     //   - Create an ImmutableSquare class implementing LspShape with
     //     a final field side, constructor, and area() returning side * side
     //   Now neither class pretends to be the other. Both satisfy LspShape.
+    interface LspShape {
+        int area();
+    }
+
+    public static class ImmutableRectangle implements LspShape {
+
+        private final int width;
+        private final int height;
+
+        public ImmutableRectangle(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        @Override
+        public int area() {
+            return width * height;
+        }
+    }
+
+
+    public static class ImmutableSquare implements LspShape {
+
+        private final int side;
+
+        public ImmutableSquare(int side) {
+            this.side = side;
+        }
+
+        @Override
+        public int area() {
+            return side * side;
+        }
+    }
 
 
     // =========================================================================
@@ -204,6 +235,36 @@ public class SolidExercises {
         public void work()  { System.out.println("Robot working"); }
         public void eat()   { /* Robots don't eat — forced to implement! */ }
         public void sleep() { /* Robots don't sleep — forced to implement! */ }
+    }
+
+    interface Sleepable {
+        void sleep();
+    }
+
+    interface Eatable {
+        void eat();
+    }
+
+    interface Workable {
+        void work();
+    }
+
+    class HumanWorker implements Sleepable, Eatable, Workable {
+
+        @Override
+        public void eat() {
+            System.out.println("Human eat");
+        }
+
+        @Override
+        public void sleep() {
+            System.out.println("Human sleep");
+        }
+
+        @Override
+        public void work() {
+            System.out.println("Human work");
+        }
     }
 
     // TODO: 4 - Fix the ISP violation by splitting into smaller interfaces:
@@ -236,6 +297,25 @@ public class SolidExercises {
             return database.query("SELECT * FROM reports");
         }
     }
+
+    interface Database {
+        String query(String sql);
+    }
+
+    class MySQLDatabase implements Database {
+        @Override
+        public String query(String sql) {
+            return "MySQLDatabase result: " + sql;
+        }
+    }
+
+    class PostgreSQLDatabase implements Database {
+        @Override
+        public String query(String sql) {
+            return "PostgresSQLDatabase result: " + sql;
+        }
+    }
+
 
     // TODO: 5 - Fix the DIP violation:
     //   - Create a Database interface with: String query(String sql)
