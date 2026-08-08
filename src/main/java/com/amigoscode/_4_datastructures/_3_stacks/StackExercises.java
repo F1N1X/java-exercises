@@ -96,7 +96,6 @@ public class StackExercises {
                     && (currentElement == ')' && characterStack.peek() == '(' ||
                     currentElement == ']' && characterStack.peek() == '[' ||
                     currentElement == '}' && characterStack.peek() == '{')) {
-
                 characterStack.pop();
             }
         }
