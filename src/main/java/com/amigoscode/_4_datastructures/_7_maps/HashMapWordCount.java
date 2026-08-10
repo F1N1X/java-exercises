@@ -56,7 +56,6 @@ public class HashMapWordCount {
         TreeMap<String, Integer> sortedMap = new TreeMap<>(wordCount);
         System.out.println(sortedMap);
 
-
         List<Map.Entry<String, Integer>> entries = new ArrayList<>(wordCount.entrySet());
 
         entries.sort(

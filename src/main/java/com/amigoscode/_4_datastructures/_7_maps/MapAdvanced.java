@@ -20,33 +20,57 @@ public class MapAdvanced {
         //           Use a default value of 0
         //           Also get the score for "Alice" using getOrDefault with default 0
         //           Print both results
+        System.out.println(scores.getOrDefault("Alice", 0));
+        System.out.println(scores.getOrDefault("Diana", 0));
 
 
         // TODO: 2 - Use putIfAbsent() to try adding "Bob" with value 100
         //           Then use putIfAbsent() to add "Diana" with value 92
         //           Print the map - Bob's value should remain 85, Diana should be added
+        scores.putIfAbsent("Bob", 100);
+        scores.putIfAbsent("Diana", 92);
+        System.out.println(scores);
 
 
         // TODO: 3 - Use computeIfAbsent() to add "Eve" with a computed value
         //           The computation: the key's length * 10 (so "Eve" -> 3 * 10 = 30)
         //           Print the map after the operation
+        scores.computeIfAbsent("Eve", s -> s.length() * 10 );
 
 
         // TODO: 4 - Use merge() to add 5 bonus points to "Charlie"'s score
         //           merge("Charlie", 5, Integer::sum) adds 5 to the existing value
         //           Also merge "Frank" with value 88 (new entry since key doesn't exist)
         //           Print the map
+        System.out.println("Merge to sum or create");
+        scores.merge("Charly", 5, Integer::sum);
+        scores.merge("Frank", 88, Integer::sum);
+        System.out.println(scores);
 
 
         // TODO: 5 - Use replaceAll() to add 10 points to every student's score
         //           replaceAll takes a BiFunction (key, value) -> newValue
         //           Print the map after the operation
+        System.out.println("All + 10");
+        scores.replaceAll((key, value) -> value + 10);
+        System.out.println(scores);
 
 
         // TODO: 6 - Create an immutable map using Map.of() with 3 entries:
         //           "Math" -> 95, "Science" -> 88, "English" -> 92
         //           Print the immutable map
         //           Try adding to it (will throw UnsupportedOperationException) - wrap in try-catch
+        Map<String, Integer> subjects = Map.of(
+                "Math", 95,
+                "Science", 88,
+                "English", 92
+        );
 
+        try {
+            subjects.put("Test", 10);
+        } catch (UnsupportedOperationException exception) {
+            System.out.println("Map Immutable");
+        }
+        System.out.println(subjects);
     }
 }
