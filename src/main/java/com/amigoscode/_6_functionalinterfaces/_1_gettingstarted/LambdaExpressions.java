@@ -1,11 +1,13 @@
 package com.amigoscode._6_functionalinterfaces._1_gettingstarted;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Exercise: Lambda Expressions
@@ -31,10 +33,14 @@ public class LambdaExpressions {
 
         // TODO: 2 - Create a Runnable as a lambda that prints
         //  "Running in a lambda!" to the console. Then execute it by calling run().
+        Runnable runnable = () -> System.out.println("Running in a lambda");
+        runnable.run();
 
 
         // TODO: 3 - Create a Callable<String> as a lambda that returns
         //  "Result from Callable". Then call it using call() and print the result.
+        Callable<String> callable = () -> "Result from Callable";
+        System.out.println(callable.call());
 
 
         // TODO: 4 - The following multi-line lambda calculates the sum of two
@@ -44,23 +50,30 @@ public class LambdaExpressions {
             int result = a + b;
             return result;
         };
-        System.out.println("Verbose sum: " + sumVerbose.apply(3, 4));
+
+        BiFunction<Integer, Integer, Integer> sumShort = (a, b) -> a+b;
+
+        System.out.println("Verbose sum: " + sumShort.apply(3, 4));
 
 
         // TODO: 5 - Create a BiFunction<String, String, String> lambda that
         //  concatenates two strings with " + " in between.
         //  Example: ("Hello", "World") -> "Hello + World"
+        BiFunction<String, String, String> concat = (a, b) -> a.concat(b);
+        System.out.println(concat.apply("Hallo ", "Welt"));
 
 
         // TODO: 6 - Store a lambda in a variable called 'exclaim' of type
         //  java.util.function.Function<String, String> that appends "!" to
         //  any string. Then reuse it: apply it to "Hello" and "Goodbye",
         //  printing both results.
-
+        Function<String, String> append = a -> a.concat("!");
+        System.out.println(append.apply("Hello World"));
 
         // TODO: 7 - Call the processName method below, passing a lambda directly
         //  (not stored in a variable) that converts a name to uppercase.
         //  Print the result.
+        System.out.println(processName("Hello Friends", (a) -> a.toUpperCase()));
 
     }
 
