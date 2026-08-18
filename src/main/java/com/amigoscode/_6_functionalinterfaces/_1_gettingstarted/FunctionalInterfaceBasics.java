@@ -15,29 +15,53 @@ public class FunctionalInterfaceBasics {
     //  abstract method: void greet(String name)
     //  Remember to annotate it with @FunctionalInterface.
 
+    @FunctionalInterface
+    public interface Greeting {
+       void greet(String name);
+    }
+
 
     public static void main(String[] args) {
 
         // TODO: 2 - Implement Greeting using an anonymous class.
         //  The greet method should print "Hello, <name>!" to the console.
+        Greeting greeting = new Greeting(){
+            @Override
+            public void greet(String name) {
+                System.out.printf("Hello, %s!\n", name);
+            }
+        };
 
+
+        greeting.greet("Mampfred");
 
         // TODO: 3 - Implement Greeting using a lambda expression.
         //  Use the full lambda syntax: (String name) -> { ... }
+
+        Greeting greeting2 = (name) -> {
+            System.out.printf("Hello mate: %s \n", name);
+        };
+        greeting2.greet("Susi");
 
 
         // TODO: 4 - Implement Greeting using a shorter lambda.
         //  Since there is only one parameter, you can omit the parentheses
         //  and the type: name -> System.out.println(...)
+        Greeting greeting3 = name -> System.out.printf("Hello %s \n", name);
+        greeting3.greet("Friend");
+
 
 
         // TODO: 5 - Call greet("Alice") on each of the three implementations above
         //  and observe the output.
+        greeting3.greet("Alice");
+
 
 
         // TODO: 6 - Call the printGreeting method below, passing a Greeting lambda
         //  and the name "Bob". The lambda should print "Hey there, <name>!".
 
+    printGreeting(greeting3, "Alice");
     }
 
     // Uncomment the method below after completing TODO 1:
@@ -46,7 +70,7 @@ public class FunctionalInterfaceBasics {
     //  * A helper method that accepts a Greeting functional interface and a name,
     //  * then invokes greet on the given name.
     //  */
-    // static void printGreeting(Greeting greeting, String name) {
-    //     greeting.greet(name);
-    // }
+   static void printGreeting(Greeting greeting, String name) {
+     greeting.greet(name);
+    }
 }

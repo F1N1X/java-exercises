@@ -1,6 +1,7 @@
 package com.amigoscode._6_functionalinterfaces._1_gettingstarted;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -22,6 +23,8 @@ public class LambdaExpressions {
         // TODO: 1 - Create a Comparator<String> as a lambda that compares strings
         //  by their length (shorter strings first). Use it to sort the names list.
         //  Hint: Use names.sort(...) or Collections.sort(names, ...)
+        names.sort((s1, s2) -> Integer.compare(s1.length(), s2.length()));
+        System.out.println(names);
 
 
         System.out.println("Sorted by length: " + names);
