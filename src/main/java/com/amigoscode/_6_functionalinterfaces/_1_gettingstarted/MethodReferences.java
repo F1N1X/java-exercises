@@ -3,6 +3,7 @@ package com.amigoscode._6_functionalinterfaces._1_gettingstarted;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -25,21 +26,29 @@ public class MethodReferences {
         // TODO: 1 - Use a static method reference to create a
         //  Function<Integer, String> that converts an Integer to a String.
         //  Use String::valueOf. Apply it to the number 42 and print the result.
+        Function<Integer, String> convert = String::valueOf;
+        System.out.println(convert.apply(42));
 
 
         // TODO: 2 - Use an instance method reference on a specific object to
         //  create a java.util.function.Consumer<String>.
         //  Use System.out::println. Then call accept("Hello from method ref!").
+        Consumer<String> helloFromMethod = System.out::println;
+        helloFromMethod.accept("Hello from method ref!");
 
 
         // TODO: 3 - Use an instance method reference on the parameter to create
         //  a Function<String, String> that calls toUpperCase() on the input string.
         //  Use String::toUpperCase. Apply it to "hello" and print the result.
+        Function<String, String> upperString = String::toUpperCase;
+        System.out.println(upperString.apply("hello to upper"));
 
 
         // TODO: 4 - Use a constructor reference to create a Supplier<ArrayList<String>>
         //  that creates a new empty ArrayList. Use ArrayList::new.
         //  Call get() and print the resulting list.
+        Supplier<ArrayList<String>> createList = ArrayList::new;
+        System.out.println(createList.get());
 
 
         List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
@@ -47,12 +56,19 @@ public class MethodReferences {
         // TODO: 5 - Use a method reference with forEach to print each name
         //  in the names list. Use System.out::println as the method reference.
 
+        names.forEach(System.out::println);
 
         // TODO: 6 - Compare lambda vs method reference side by side.
         //  Create two Function<String, Integer> variables:
         //    a) 'withLambda' using a lambda:          s -> s.length()
         //    b) 'withMethodRef' using method reference: String::length
         //  Apply both to "Hello" and print the results to confirm they are equal.
+        Function<String, Integer> withLambda = s -> s.length();
+        Function<String, Integer> withMethodRef = String::length;
+
+        System.out.println("Compare lambda vs method reference side by side");
+        System.out.println(withLambda.apply("test"));
+        System.out.println(withMethodRef.apply("test"));
 
     }
 }
