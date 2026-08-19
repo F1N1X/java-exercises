@@ -20,28 +20,44 @@ public class FunctionExercise {
 
         // TODO: 1 - Create a Function<String, Integer> called 'stringLength'
         //  that returns the length of a string.
+        Function<String, Integer> stringLength = String::length;
+        System.out.println(stringLength.apply("Hello"));
 
 
         // TODO: 2 - Create a Function<String, String> called 'toUpperCase'
         //  that converts a string to uppercase.
+        Function<String, String> toUpperCase = String::toUpperCase;
+        System.out.println(toUpperCase.apply("to Upper Case all elements"));
 
 
         // TODO: 3 - Chain 'toUpperCase' and 'stringLength' using andThen() to
         //  create a new function that first converts to uppercase, then gets
         //  the length. Apply it to "hello" and print the result.
         //  Hint: toUpperCase.andThen(stringLength)
+        System.out.println(toUpperCase.andThen(stringLength).apply("TestTestTest"));
 
 
         // TODO: 4 - Chain 'stringLength' and 'toUpperCase' using compose() to
         //  achieve the same result as TODO 3. Apply it to "hello" and print.
         //  Hint: stringLength.compose(toUpperCase)
         //  Note: compose applies the argument function FIRST.
+        stringLength.compose(toUpperCase).apply("Hallo");
 
 
         // TODO: 5 - Create a Function<Integer, String> called 'intToWord' that
         //  converts integers 1-5 to their English word ("one", "two", ..., "five").
         //  For any other number, return "unknown".
         //  Hint: You can use a switch expression or if-else chain.
+        Function<Integer, String> intToWord = i -> switch (i) {
+            case 1 -> "one";
+            case 2 -> "two";
+            case 3 -> "three";
+            case 4 -> "four";
+            case 5 -> "fife";
+            default -> "unkown";
+        };
+
+        System.out.println(intToWord.apply(10));
 
 
         List<String> words = Arrays.asList("apple", "banana", "cherry", "date");
@@ -50,11 +66,15 @@ public class FunctionExercise {
         //  of the 'words' list into its length. Store the result in a
         //  List<Integer> called 'lengths' and print it.
         //  Hint: Use words.stream().map(stringLength).collect(...)
+        List<Integer> stringLengthList = words.stream()
+                .map(stringLength)
+                .toList();
+        System.out.println(stringLengthList);
 
 
         // TODO: 7 - Call the applyFunction method below, passing stringLength
         //  and the string "Functional Programming". Print the result.
-
+        applyFunction(stringLength, "Functional Programming");
     }
 
     /**
