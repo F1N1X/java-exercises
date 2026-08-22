@@ -1,5 +1,6 @@
 package com.amigoscode._6_functionalinterfaces._4_callbacks;
 
+import java.sql.SQLOutput;
 import java.util.function.Consumer;
 
 /**
@@ -22,17 +23,26 @@ public class CallbackExercise {
         //  Call fetchData twice:
         //    a) with simulateSuccess = true
         //    b) with simulateSuccess = false
+        fetchData(true, (s) -> System.out.printf("Data received: %s", s));
+        fetchData(false, (s) -> System.out.printf("Error occurred: %s", s));
 
 
         // TODO: 5 - Call processAsync with:
         //  - task: a Runnable that prints "Processing data..."
         //  - onComplete: a Runnable that prints "Processing complete!"
+        processAsync(() -> System.out.println("Processing data..."), () -> System.out.println("Processing complete!"));
+
 
 
         // TODO: 6 - Use callbacks to chain operations. Call performSteps below
         //  with three Runnable callbacks: step1 prints "Step 1: Loading",
         //  step2 prints "Step 2: Transforming", step3 prints "Step 3: Saving".
         //  The method will execute them in order.
+        performSteps(
+                () -> System.out.println("Step 1: Loading"),
+                () -> System.out.println("Transforming"),
+                () -> System.out.println("Saving")
+        );
 
     }
 
@@ -42,10 +52,18 @@ public class CallbackExercise {
     //    Consumer<String> onFailure
     //  If simulateSuccess is true, call onSuccess with "{ \"id\": 1, \"name\": \"Alice\" }"
     //  If simulateSuccess is false, call onFailure with "Connection timed out"
+    public static void fetchData(boolean simulateSuccess, Consumer<String> cb) {
+        // TODO: 2 - Inside fetchData (from TODO 1), before calling the callbacks,
+        //  print "Fetching data..." to simulate work being done.
+        System.out.println("Fetching data...");
 
+        if (simulateSuccess)
+            cb.accept("{ \"id\": 1, \"name\": \"Alice\" }");
+        else
+            cb.accept("Connection timed out");
 
-    // TODO: 2 - Inside fetchData (from TODO 1), before calling the callbacks,
-    //  print "Fetching data..." to simulate work being done.
+    }
+
 
 
     // TODO: 3 - Create a method called processAsync that takes:
@@ -53,7 +71,12 @@ public class CallbackExercise {
     //    Runnable onComplete
     //  It should run the task first, then call onComplete.
     //  Print "Starting process..." before the task and "Done." after onComplete.
-
+    public static void processAsync(Runnable task, Runnable onComplete) {
+        task.run();
+        System.out.println("Starting process");
+        onComplete.run();
+        System.out.println("Done");
+    }
 
     /**
      * Executes three steps in sequence using Runnable callbacks.
