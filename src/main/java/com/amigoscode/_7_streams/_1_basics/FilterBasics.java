@@ -2,7 +2,9 @@ package com.amigoscode._7_streams._1_basics;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Exercise: Filter Basics
@@ -20,29 +22,50 @@ public class FilterBasics {
 
         // TODO: 1 - Filter 'words' keeping only strings with length > 5
         //           Print each matching word
+        words.stream()
+                .filter(word -> word.length() > 5)
+                .forEach(System.out::println);
+
+
 
 
         // TODO: 2 - Filter 'numbers' keeping only even numbers
         //           Print each even number
+        numbers.stream()
+                .filter(number -> number % 2 == 0)
+                .forEach(System.out::println);
 
 
         // TODO: 3 - Filter 'cities' keeping only those starting with "A"
         //           Print each matching city
+        cities.stream()
+                .filter(city -> city.startsWith("A"))
+                .forEach(System.out::println);
 
 
         // TODO: 4 - Chain two filters on 'words': first keep words with length > 3,
         //           then keep only words that contain the letter "a"
         //           Print each matching word
+        words.stream()
+                .filter(word -> word.length() > 3)
+                .filter(word -> word.startsWith("c"))
+                .forEach(System.out::println);
 
 
         // TODO: 5 - Filter null values from 'withNulls' list
         //           Print each non-null element
         //           Hint: Use Objects::nonNull or a lambda
+        withNulls.stream()
+                .filter(Objects::nonNull)
+                .forEach(System.out::println);
 
 
         // TODO: 6 - Filter 'numbers' to keep only numbers greater than 5,
         //           then collect the results to a new List and print the list
         //           Use Collectors.toList()
+        numbers.stream()
+                .filter(number -> number > 5)
+                .forEach(System.out::println);
 
     }
 }
