@@ -30,30 +30,51 @@ public class MinMax {
         // TODO: 1 - Find the minimum value in 'numbers' using stream min()
         //           Use Comparator.naturalOrder() or Integer::compareTo
         //           Print the result
+        System.out.println(numbers.stream()
+                .min(Integer::compareTo)
+                .get());
 
 
         // TODO: 2 - Find the maximum value in 'numbers' using stream max()
         //           Print the result
+        System.out.println(numbers.stream()
+                .max(Integer::compareTo)
+                .get());
 
 
         // TODO: 3 - Find the shortest string in 'words' by comparing string length
         //           Use Comparator.comparingInt(String::length)
         //           Print the result
+        System.out.println(words.stream()
+                .max(Comparator.comparingInt(String::length))
+                .get());
 
 
         // TODO: 4 - Find the youngest person from 'people'
         //           Use Comparator.comparingInt(Person::age)
         //           Print the person's name and age
+        System.out.println(people.stream()
+                .max(Comparator
+                .comparingInt(Person::age))
+                .get());
 
 
         // TODO: 5 - Find the maximum value in 'numbers' using reduce() instead of max()
         //           Use Integer::max as the binary operator
         //           Print the result
+        System.out.println(numbers.stream()
+                .reduce(Integer::max)
+                .get());
 
 
         // TODO: 6 - Handle the empty stream case: try to find min of 'emptyList'
         //           Use orElse() to provide a default value of -1
         //           Print the result
 
+        Integer i = emptyList.stream()
+                .min(Integer::min)
+                .orElse(-1);
+
+        System.out.println(i);
     }
 }
