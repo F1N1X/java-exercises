@@ -1,5 +1,6 @@
 package com.amigoscode._7_streams._4_duplicates;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -29,32 +30,56 @@ public class DistinctExercise {
 
         // TODO: 1 - Remove duplicates from 'numbersWithDuplicates' using distinct()
         //           Print the resulting unique numbers
+        numbersWithDuplicates
+                .stream()
+                .distinct()
+                .toList()
+                .forEach(System.out::println);
 
 
         // TODO: 2 - Remove duplicates from 'mixedCaseNames' in a case-insensitive manner
         //           Map all names to lowercase first, then use distinct()
-        //           Print the resulting unique names
+        //           Print the resulting unique name
+
+        mixedCaseNames.stream()
+                .map(String::toUpperCase)
+                .distinct()
+                .toList()
+                .forEach(System.out::println);
 
 
         // TODO: 3 - Collect 'fruits' to a Set instead of using distinct()
         //           This automatically removes duplicates
         //           Print the resulting set
+        new HashSet<>(fruits)
+                .forEach(System.out::println);
 
 
         // TODO: 4 - Count the number of distinct elements in 'numbersWithDuplicates'
         //           Use distinct() followed by count()
         //           Print the count
+        long count = numbersWithDuplicates.stream()
+                .distinct()
+                .count();
+        System.out.println(count);
 
 
         // TODO: 5 - Remove duplicate Person objects from 'people'
         //           Since Person is a record, equals/hashCode are auto-generated
         //           Use distinct() and print each unique person
+        people.stream()
+                .distinct()
+                .forEach(System.out::println);
 
 
         // TODO: 6 - Remove duplicates from 'fruits' with custom logic using a TreeSet
         //           collector that ignores case (use String.CASE_INSENSITIVE_ORDER)
         //           Hint: Collectors.toCollection(() -> new TreeSet<>(String.CASE_INSENSITIVE_ORDER))
         //           Print the result
+        fruits.stream()
+                .distinct()
+                .collect(Collectors.toCollection( () -> new TreeSet<>(String.CASE_INSENSITIVE_ORDER)))
+                .forEach(System.out::println);
 
     }
 }
