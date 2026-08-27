@@ -47,35 +47,41 @@ public class FilterExercise {
 
         // TODO: 1 - Filter 'people' to find persons older than 18
         //           Print each person's name and age
-
+        people.stream().filter( p -> p.age > 18).forEach(System.out::println);
 
         // TODO: 2 - Filter 'orders' with amount greater than 100
         //           Print each order's product and amount
-
+        orders.stream().filter(o -> o.amount > 100).forEach(System.out::println);
 
         // TODO: 3 - Filter 'emails' keeping only valid ones matching a simple regex
         //           Use the pattern: ".+@.+\\..+"  (contains @ and a dot after it)
         //           Hint: Use String::matches in the filter predicate
         //           Print each valid email
+        emails.stream().filter(s -> s.matches(".+@.+\\..+")).forEach(System.out::println);
 
 
         // TODO: 4 - Chain multiple filter conditions on 'people':
         //           Keep persons who are older than 18 AND live in "London"
         //           Print each matching person
+        people.stream().filter(p -> p.age > 18 && p.city.equals("London")).forEach(System.out::println);
 
 
         // TODO: 5 - Create a Predicate<Order> variable called 'isExpensive' that checks
         //           if an order amount is >= 100. Use this predicate in filter().
         //           Print each matching order's product
+        Predicate<Order> isExpensive = o -> o.amount >= 100;
+        orders.stream().filter(isExpensive).forEach(System.out::println);
 
 
         // TODO: 6 - Filter 'people' with complex OR conditions:
         //           Keep persons who live in "Paris" OR are younger than 18
         //           Print each matching person
-
+        Predicate<Person> isYoungerLiveParis = o -> o.age < 18 && o.city.equals("Paris");
+        people.stream().filter(isYoungerLiveParis).forEach(System.out::println);
 
         // TODO: 7 - Count the number of COMPLETED orders
         //           Use filter + count() and print the result
+        System.out.println(orders.stream().filter(o -> o.status.equals("COMPLETED")).count());
 
     }
 }
