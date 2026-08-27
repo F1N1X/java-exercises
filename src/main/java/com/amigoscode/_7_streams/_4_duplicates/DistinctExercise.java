@@ -80,6 +80,6 @@ public class DistinctExercise {
                 .distinct()
                 .collect(Collectors.toCollection( () -> new TreeSet<>(String.CASE_INSENSITIVE_ORDER)))
                 .forEach(System.out::println);
-
     }
+
 }
