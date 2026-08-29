@@ -40,28 +40,48 @@ public class MapExercise {
 
         // TODO: 1 - Map 'people' to extract just their names
         //           Collect to a list and print it
+        System.out.println(people.stream()
+                .map(p -> p.name)
+                .toList());
 
 
         // TODO: 2 - Map Person objects to PersonDTO objects (dropping the age field)
         //           Collect to a list and print each DTO
+        System.out.println(people.stream()
+                .map(p -> new PersonDTO(p.name, p.email))
+                .toList());
 
 
         // TODO: 3 - Use mapToInt to get the ages of all people
         //           Calculate and print the sum of ages
+        System.out.println("All ages sum:");
+        System.out.println(people.stream()
+                .mapToInt(p -> p.age)
+                .sum());
 
 
         // TODO: 4 - Use mapToDouble to get all product prices
         //           Calculate and print the sum of prices
+        System.out.println(products.stream()
+                .mapToDouble(p -> p.price)
+                .sum());
 
 
         // TODO: 5 - Chain map operations on 'sentences':
         //           First map to lowercase, then map to the first word only (split by space)
         //           Print each result
+        sentences.stream()
+                .map(String::toLowerCase)
+                .map(s -> s.split("\\s")[0])
+                .forEach(System.out::println);
 
 
         // TODO: 6 - Use map with a method reference: map 'sentences' to uppercase
         //           using String::toUpperCase
         //           Collect to a list and print it
+        System.out.println(sentences.stream()
+                .map(String::toUpperCase)
+                .toList());
 
     }
 }
