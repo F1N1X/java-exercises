@@ -37,30 +37,52 @@ public class AverageAndSum {
         // TODO: 1 - Calculate the sum of all student scores
         //           Use mapToInt(Student::score).sum()
         //           Print the result
+        System.out.println(students.stream()
+                .mapToInt(s -> s.score)
+                .sum());
 
 
         // TODO: 2 - Calculate the average of all student scores
         //           Use mapToDouble(Student::score).average()
         //           Print the result (remember: average() returns OptionalDouble)
-
+        System.out.println(students.stream()
+                .mapToDouble(Student::score)
+                .average().getAsDouble());
 
         // TODO: 3 - Use Collectors.summingInt() to sum all student scores
         //           Print the result
 
+        System.out.println(students.stream()
+                .collect(Collectors.summingInt(s -> s.score)));
 
         // TODO: 4 - Use Collectors.averagingDouble() to average all product prices
         //           Print the result
+        System.out.println(products.stream()
+                .collect(Collectors.averagingDouble(Product::price)));
 
 
         // TODO: 5 - Calculate the weighted average of products:
         //           weighted avg = sum(price * quantity) / sum(quantity)
         //           Hint: Use mapToDouble for the numerator and mapToInt for denominator
         //           Print the result
+        double avg = products.stream()
+                .mapToDouble(p -> p.price() * p.quantity())
+                .sum()
+                /
+                products.stream()
+                        .mapToInt(Product::quantity)
+                        .sum();
+
+        System.out.println(avg);
 
 
         // TODO: 6 - Handle an empty stream: calculate the average of 'emptyStudents' scores
         //           Use orElse(0.0) to provide a default value when no elements exist
         //           Print the result
+        System.out.println(emptyStudents.stream()
+                .mapToDouble(s -> s.score())
+                .average()
+                .orElse(0.0));
 
     }
 }
