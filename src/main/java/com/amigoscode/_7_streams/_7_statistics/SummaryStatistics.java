@@ -38,22 +38,40 @@ public class SummaryStatistics {
         // TODO: 2 - Print the count, sum, min, max, and average from the
         //           IntSummaryStatistics obtained in TODO 1
         //           Use getCount(), getSum(), getMin(), getMax(), getAverage()
+        System.out.println(scores.stream()
+                .mapToInt(s -> s)
+                .summaryStatistics());
+
 
 
         // TODO: 3 - Use the Collectors.summarizingInt() collector to get
         //           IntSummaryStatistics for unitsSold from 'sales'
         //           Print the result
+        System.out.println(sales.stream()
+                .collect(Collectors.summarizingInt(s -> s.unitsSold)));
 
 
         // TODO: 4 - Create DoubleSummaryStatistics for the sale amounts from 'sales'
         //           Use mapToDouble and summaryStatistics()
         //           Print all the statistics
+        System.out.println(sales.stream()
+                .mapToDouble(s -> s.amount)
+                .summaryStatistics());
 
 
         // TODO: 5 - Combine two IntSummaryStatistics:
         //           Create stats for 'batch1' and 'batch2' separately,
         //           then use the combine() method to merge them
         //           Print the combined statistics
+        IntSummaryStatistics intSummaryStatistics1 = batch1.stream()
+                .mapToInt(s -> s)
+                .summaryStatistics();
 
+        IntSummaryStatistics intSummaryStatistics2 = batch2.stream()
+                .mapToInt(s -> s)
+                .summaryStatistics();
+        intSummaryStatistics1.combine(intSummaryStatistics2);
+
+        System.out.println(intSummaryStatistics1);
     }
 }
