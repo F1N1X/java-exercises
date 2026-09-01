@@ -39,6 +39,8 @@ public class GroupingAndCounting {
         // TODO: 1 - Group 'wordsWithRepeats' by the word itself and count occurrences
         //           Result type: Map<String, Long>
         //           Print each word and its count
+        wordsWithRepeats.stream()
+                .collect(Collectors.groupingBy(s -> s)).forEach((s, e) -> System.out.println(s + " " + e));
 
 
         // TODO: 2 - Find the most common word in 'wordsWithRepeats'
