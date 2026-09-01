@@ -47,15 +47,28 @@ public class GroupingAndCounting {
         //           Group by word, count occurrences, then find the entry with max value
         //           Hint: Use entrySet().stream() on the grouped map, then max()
         //           Print the word and its count
+        Map<String, Long> words = wordsWithRepeats.stream().collect(Collectors.groupingBy(
+                s -> s,
+                Collectors.counting()
+        ));
+
+        words.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .ifPresent(e ->
+                        System.out.println(e.getKey() + " " + e.getValue()));
 
 
         // TODO: 3 - Use Collectors.partitioningBy to split 'numbers' into even and odd
         //           Result type: Map<Boolean, List<Integer>>
         //           Print the even numbers (key=true) and odd numbers (key=false)
+        System.out.println(numbers.stream()
+                .collect(Collectors.partitioningBy(integer -> integer % 2 == 0)));
 
 
         // TODO: 4 - Partition 'students' into those with grade >= 85 (pass) and below (fail)
         //           Print each group
+        System.out.println(students.stream()
+                .collect(Collectors.groupingBy(i -> i.grade >= 85)));
 
 
         // TODO: 5 - Use Collectors.mapping() within groupingBy:
@@ -63,11 +76,22 @@ public class GroupingAndCounting {
         //           Hint: Collectors.groupingBy(Student::subject, Collectors.mapping(Student::name, Collectors.toList()))
         //           Print each subject and its list of student names
 
+        System.out.println(students.stream()
+                .collect(Collectors.groupingBy(Student::subject, Collectors.mapping(Student::name, Collectors.toList()))));
+
 
         // TODO: 6 - Use maxBy as a downstream collector:
         //           Group students by subject and find the highest-scoring student per subject
         //           Use Collectors.groupingBy with Collectors.maxBy
         //           Print each subject and its top student
-
+        System.out.println(
+                students.stream()
+                        .collect(Collectors.groupingBy(
+                                s -> s.subject,
+                                Collectors.maxBy(
+                                        Comparator.comparingLong(s -> s.grade)
+                                )
+                        ))
+        );
     }
 }
