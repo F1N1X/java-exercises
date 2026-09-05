@@ -1,7 +1,10 @@
 package com.amigoscode._7_streams._10_collectors;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
@@ -48,11 +51,19 @@ public class CollectorsExercise {
         //           Use Collectors.toUnmodifiableList() or stream .toList()
         //           Print the result and try to verify it's unmodifiable
         //           (optional: try adding to it and catch UnsupportedOperationException)
+        try {
+            List<String> collect = names.stream().collect(Collectors.toUnmodifiableList());
+            collect.add("E");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("list is immutable");
+        }
 
 
         // TODO: 2 - Collect 'people' to a Map where key is name and value is age
         //           Use Collectors.toMap(Person::name, Person::age)
         //           Print the resulting map
+        System.out.println(people.stream()
+                .collect(Collectors.toMap(Person::name, Person::age)));
 
 
         // TODO: 3 - Handle duplicate keys in toMap:
@@ -60,28 +71,53 @@ public class CollectorsExercise {
         //           where key is city and value is name
         //           Since London appears twice, use a merge function: (name1, name2) -> name1 + ", " + name2
         //           Print the result
+        Map<String, String> collect = peopleWithDuplicateCities.stream()
+                .collect(Collectors.toMap(
+                        Person::city,
+                        Person::name,
+                        (name1, name2) -> name1 + " " + name2));
+
+        System.out.println(collect);
 
 
         // TODO: 4 - Collect 'people' to a ConcurrentMap using Collectors.toConcurrentMap()
         //           Key: name, Value: city
         //           Print the result and its class name
+        System.out.println(people.stream()
+                .collect(Collectors.toConcurrentMap(Person::name, Person::city)));
 
 
         // TODO: 5 - Use Collectors.partitioningBy to split 'numbers' into
         //           even (true) and odd (false) groups
         //           Print both partitions
+        System.out.println(numbers.stream()
+                .collect(Collectors.partitioningBy(n -> n % 2 == 0)));
 
 
         // TODO: 6 - Use Collectors.collectingAndThen to collect 'names' to a list
         //           and then transform the result to its size (count)
         //           Hint: collectingAndThen(Collectors.toList(), List::size)
         //           Print the result
+        int countNumbers = names.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.<String>toList(),
+                        List::size
+                ));
 
+        System.out.println(countNumbers);
 
         // TODO: 7 - Use Collectors.teeing() (Java 12+) to compute both the sum
         //           and count of 'numbers' simultaneously, then calculate the average
         //           teeing(Collectors.summingInt(...), Collectors.counting(), (sum, count) -> ...)
         //           Print the calculated average
+        String teeing = numbers.stream()
+                .collect(Collectors.teeing(
+                        Collectors.summarizingInt(value -> value),
+                        Collectors.counting(),
+                        (sum, count) -> sum + " | " + count
+                ));
+
+        System.out.println(teeing);
 
     }
 }
