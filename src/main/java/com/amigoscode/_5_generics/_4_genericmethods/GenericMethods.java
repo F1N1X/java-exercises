@@ -18,11 +18,19 @@ public class GenericMethods {
     // TODO: 1 - Create a static generic method: <T> void printArray(T[] array)
     //  It should print each element of the array on the same line separated
     //  by spaces, then print a newline at the end.
+    public static <T> void printArray(T[] array) {
+        System.out.println(Arrays.toString(array));
+    }
 
 
     // TODO: 2 - Create a static generic method: <T> T getFirst(List<T> list)
     //  It should return the first element of the list.
     //  If the list is empty, return null.
+
+    public static <T> T getFirst(List<T> list) {
+        if (list.isEmpty()) return null;
+        return list.getFirst();
+    }
 
 
     // TODO: 3 - Create a static generic method: <T> T getLast(List<T> list)
@@ -48,11 +56,18 @@ public class GenericMethods {
         //  (c) filterNulls with a list that contains some null values
         //  (d) contains to search for an element in an array
 
+        String[] names = {"Ambia", "Mambia" , "Sambia", "Rambia"};
+        printArray(names);
 
-        // TODO: 7 - Demonstrate type inference: call printArray and contains
-        //  WITHOUT explicitly specifying the type parameter (i.e., just call
-        //  printArray(myArray) instead of GenericMethods.<String>printArray(myArray)).
-        //  Add a comment explaining that the compiler infers T from the arguments.
+        Integer[] ages = {11, 24, 33, 12, 33};
+        printArray(ages);
+
+        List<String> list = new ArrayList<>();
+        System.out.println(getFirst(list));
+        list.add("hello");
+        list.add("bell");
+        System.out.println(getFirst(list));
+
 
     }
 }
