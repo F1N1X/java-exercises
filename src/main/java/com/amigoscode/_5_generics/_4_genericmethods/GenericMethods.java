@@ -3,6 +3,7 @@ package com.amigoscode._5_generics._4_genericmethods;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Exercise: Generic Methods
@@ -37,15 +38,33 @@ public class GenericMethods {
     //  It should return the last element of the list.
     //  If the list is empty, return null.
 
+    public static <T> T getLast(List <T> list) {
+        if (list.isEmpty()) return null;
+        return list.getLast();
+    }
+
 
     // TODO: 4 - Create a static generic method: <T> List<T> filterNulls(List<T> list)
     //  It should return a new list containing only the non-null elements
     //  from the original list. Do not modify the original list.
+    public static <T> List<T> filterNulls(List<T> list) {
+        return list.stream()
+                .filter(Objects::nonNull)
+                .toList();
+    }
 
 
     // TODO: 5 - Create a static generic method: <T> boolean contains(T[] array, T target)
     //  It should return true if the target is found in the array.
     //  Use the equals() method for comparison (handle null target).
+
+    public static <T> boolean contains(T[] array, T target) {
+        return Arrays.stream(array)
+                .filter(e -> e.equals(target))
+                .anyMatch(e -> e.equals(target));
+    }
+
+
 
 
     public static void main(String[] args) {
@@ -69,5 +88,14 @@ public class GenericMethods {
         System.out.println(getFirst(list));
 
 
+        List<String> names2 = new ArrayList<>();
+        names2.add(null);
+        names2.add("Hallo");
+        names2.add(null);
+        names2.add("Beta");
+        names2.add(null);
+        System.out.println(filterNulls(names2));
+
+        System.out.println(contains(names, "Tosi"));
     }
 }
