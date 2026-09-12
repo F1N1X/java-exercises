@@ -22,11 +22,26 @@ public class UpperBoundedWildcard {
     //  It should iterate through the list and sum all elements using doubleValue().
     //  Return the total sum.
 
+    static double sumOfList(List<? extends Number> list) {
+        return list.stream()
+                .mapToDouble(Number::doubleValue)
+                .sum();
+    }
+
 
     // TODO: 2 - Create a static method:
     //  void copyToNumberList(List<? extends Number> source, List<Number> destination)
     //  It should copy all elements from source into destination.
     //  This works because anything that extends Number IS-A Number.
+
+
+    static void copyToNumberList(
+            List<? extends Number> source,
+            List<Number> destination
+    ) {
+        destination.addAll(source);
+    }
+
 
 
     public static void main(String[] args) {
@@ -56,6 +71,52 @@ public class UpperBoundedWildcard {
         // TODO: 6 - Add a comment below explaining the PECS principle
         //  (Producer Extends, Consumer Super) as it applies to this exercise.
         //  Why is "extends" appropriate when the list is a PRODUCER (we read from it)?
+
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+        List<Double> doubles = Arrays.asList(1.5, 2.5, 3.5);
+        List<Long> longs = Arrays.asList(100L, 200L, 300L);
+
+        System.out.println("Integer sum: " + sumOfList(integers));
+        System.out.println("Double sum: " + sumOfList(doubles));
+        System.out.println("Long sum: " + sumOfList(longs));
+
+
+        // TODO: 4
+
+        List<? extends Number> numbers = new ArrayList<Integer>();
+
+        // numbers.add(1);
+        // numbers.add(1.0);
+
+        // Does not compile because the exact type behind
+        // ? extends Number is unknown.
+        // It could be List<Integer>, List<Double>, List<Long>, etc.
+        // Therefore Java cannot know which Number subtype is safe to add.
+
+
+        // TODO: 5
+
+        List<Integer> source = Arrays.asList(10, 20, 30);
+        List<Number> destination = new ArrayList<>();
+
+        copyToNumberList(source, destination);
+
+        System.out.println("Destination: " + destination);
+
+
+        // TODO: 6
+        //
+        // PECS = Producer Extends, Consumer Super
+        //
+        // "extends" is used here because source PRODUCES values.
+        // We read Number values from source.
+        //
+        // List<? extends Number> means the list can contain
+        // Number or any subclass of Number, such as Integer,
+        // Double, or Long.
+        //
+        // Since every element is guaranteed to be a Number,
+        // we can safely read elements from the list as Number.
 
     }
 }
