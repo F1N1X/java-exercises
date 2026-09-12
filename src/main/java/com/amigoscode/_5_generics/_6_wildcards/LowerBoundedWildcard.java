@@ -22,6 +22,11 @@ public class LowerBoundedWildcard {
     //  It should add the integers 1, 2, and 3 to the list.
     //  This works because any list that holds Integer or a supertype of Integer
     //  can safely accept Integer values.
+    public static void addNumbers(List<? super Integer> list) {
+        list.add(1);
+        list.add(2);
+        list.add(3);
+    }
 
 
     // TODO: 2 - Create a static method:
@@ -30,23 +35,71 @@ public class LowerBoundedWildcard {
     //  This is the PECS principle in action:
     //    source uses "extends" because it PRODUCES elements (we read from it)
     //    destination uses "super" because it CONSUMES elements (we write to it)
+    static <T> void moveElements(
+            List<? extends T> source,
+            List<? super T> destination
+    ) {
+        for (T element : source) {
+            destination.add(element);
+        }
+    }
 
 
     public static void main(String[] args) {
 
-        // TODO: 3 - Call addNumbers() with three different list types:
-        //  (a) List<Integer>   - Integer is Integer (exact match)
-        //  (b) List<Number>    - Number is a supertype of Integer
-        //  (c) List<Object>    - Object is a supertype of Integer
-        //  Print each list after calling addNumbers().
+        List<Integer> integerList = new ArrayList<>();
+        addNumbers(integerList);
+        System.out.println("Integer list: " + integerList);
+
+        List<Number> numberList = new ArrayList<>();
+        addNumbers(numberList);
+        System.out.println("Number list: " + numberList);
+
+        List<Object> objectList = new ArrayList<>();
+        addNumbers(objectList);
+        System.out.println("Object list: " + objectList);
 
 
-        // TODO: 4 - Demonstrate that you CAN add Integer to List<? super Integer>.
-        //  Create a List<? super Integer> variable, assign a new ArrayList<Number>()
-        //  to it, and add several Integer values. Print the list.
-        //  Then try adding a Double and observe/explain the compile error (commented out).
+        // TODO: 4 - Demonstrate List<? super Integer>
+
+        List<? super Integer> list = new ArrayList<Number>();
+
+        list.add(10);
+        list.add(20);
+        list.add(30);
+
+        System.out.println("List<? super Integer>: " + list);
+
+        // list.add(3.14);
+        // Does not compile because the declared type is List<? super Integer>.
+        // Java only guarantees that Integer values can safely be added.
+        // Even though the actual object is an ArrayList<Number>,
+        // the compiler only looks at the declared wildcard type.
+
+
+        // TODO: 5 - Move Integer elements into a Number list
+
+        List<Integer> source = Arrays.asList(1, 2, 3, 4, 5);
+        List<Number> destination = new ArrayList<>();
+
+        moveElements(source, destination);
+
+        System.out.println("Destination: " + destination);
+
+
+        // TODO: 6 - PECS explanation
         //
-        // list.add(3.14);  // Why doesn't this compile even though list holds Numbers?
+        // PECS = Producer Extends, Consumer Super
+        //
+        // ? extends T is used when a collection PRODUCES values.
+        // We can safely read values from it as type T.
+        //
+        // ? super T is used when a collection CONSUMES values.
+        // We can safely add values of type T to it.
+        //
+        // In moveElements():
+        // source uses ? extends T because we read elements from it.
+        // destination uses ? super T because we write elements into it.
 
 
         // TODO: 5 - Use moveElements() to move elements from a List<Integer> source
@@ -57,6 +110,9 @@ public class LowerBoundedWildcard {
         //  (Producer Extends, Consumer Super) as it applies to this exercise.
         //  Why is "super" appropriate when the list is a CONSUMER (we write to it)?
         //  How does this complement the "extends" wildcard?
+
+        // extends looks downward in the inheritance hierarchy.
+        //super looks upward in the inheritance hierarchy.
 
     }
 }
