@@ -69,9 +69,6 @@ public class UpperBound {
 
     }
 
-
-
-
     public static void main(String[] args) {
 
         // TODO: 6 - Test sum() and findMax() with Integer and Double lists
