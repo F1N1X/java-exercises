@@ -41,6 +41,7 @@ class PasswordValidatorTest {
     //  Then implement the length check in PasswordValidator.
 
 
+
     // TODO: 2 - Write a test: password must contain at least one uppercase letter.
     //  Assert that isValid("abcdefg1!") returns false (no uppercase).
     //  Then update PasswordValidator to check for uppercase letters.
