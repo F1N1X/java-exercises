@@ -1,5 +1,6 @@
 package com.amigoscode._8_testing._6_parameterized;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -7,6 +8,7 @@ import org.junit.jupiter.params.provider.*;
 
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -16,13 +18,27 @@ import static org.junit.jupiter.api.Assertions.*;
  * and custom ArgumentsProvider for data-driven tests.
  */
 @DisplayName("CSV Source Parameterized Tests")
+
 class CsvSourceTest {
+
+    private EmailValidator underTest;
+
+    @BeforeEach
+    void setUp() {
+        underTest = new EmailValidator();
+    }
+
 
     // TODO: 1 - Test math operations with @CsvSource.
     //  Use @ParameterizedTest and @CsvSource to test addition:
     //  @CsvSource({"1, 1, 2", "2, 3, 5", "10, -5, 5", "0, 0, 0", "-3, -7, -10"})
     //  The test method takes (int a, int b, int expectedSum) parameters.
     //  Assert that a + b equals expectedSum.
+    @ParameterizedTest
+    @CsvSource({"1, 1, 2", "2, 3, 5", "10, -5, 5", "0, 0, 0", "-3, -7, -10"})
+    void testNumbersAddReturnExceptedSum(int a, int b, int expectedSum) {
+        assertThat(Integer.sum(a, b)).isEqualTo(expectedSum);
+    }
 
 
     // TODO: 2 - Test string operations with @CsvSource.
@@ -31,6 +47,11 @@ class CsvSourceTest {
     //  The test method takes (String input, String expected) parameters.
     //  Assert that input.toUpperCase() equals expected.
     //  Note: Use single quotes for empty strings in CSV.
+    @ParameterizedTest
+    @CsvSource({"hello, HELLO", "world, WORLD", "java, JAVA", "'', ''"})
+    void testStringOperations(String input, String expected) {
+        assertThat(input.toUpperCase()).isEqualTo(expected);
+    }
 
 
     // TODO: 3 - Use @CsvFileSource to load test data from a CSV file.
@@ -46,11 +67,23 @@ class CsvSourceTest {
     //  Use a new EmailValidator() to test isValid(email) equals expected.
 
 
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/email-test-data.csv", numLinesToSkip = 1)
+    void testFromCSVFile(String email, boolean expected) {
+        assertThat(email).isEqualTo(expected);
+    }
+
     // TODO: 4 - Use custom display names with @ParameterizedTest(name = ...).
     //  Annotate with @ParameterizedTest(name = "{0} * {1} = {2}")
     //  and @CsvSource({"2, 3, 6", "4, 5, 20", "0, 100, 0", "-2, 3, -6"}).
     //  The test method takes (int a, int b, int expectedProduct) parameters.
     //  Assert that a * b equals expectedProduct.
+    @ParameterizedTest(name = "{0} * {1} = {2}")
+    @CsvSource({"2, 3, 6", "4, 5, 20", "0, 100, 0", "-2, 3, -6"})
+    void testMultiplication(int a, int b, int expectedProduct) {
+        assertThat(a * b).isEqualTo(expectedProduct);
+    }
 
 
     // TODO: 5 - Use @ArgumentsSource with a custom ArgumentsProvider.
@@ -71,5 +104,23 @@ class CsvSourceTest {
     //          );
     //      }
     //  }
+    @ParameterizedTest
+    @ArgumentsSource(CustomArgumentsProvider.class)
+    void shouldCheckStringLength(String input, int expectedLength) {
+
+        assertThat(input.length()).isEqualTo(expectedLength);
+    }
+
+    static class CustomArgumentsProvider implements ArgumentsProvider {
+
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+            return Stream.of(
+                    Arguments.of("hello", 5),
+                    Arguments.of("", 0),
+                    Arguments.of("Java", 4)
+            );
+        }
+    }
 
 }
