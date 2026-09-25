@@ -3,6 +3,7 @@ package com.amigoscode._8_testing._9_mocking;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -39,7 +41,24 @@ class AdvancedMockingTest {
     //      .thenReturn(true, false);
     //  Place the first order -> should succeed (status "COMPLETED").
     //  Place the second order -> should throw RuntimeException (payment fails).
+    @Test
+    void testTwoOrders() {
+        // Given
+        given(paymentService.charge(anyString(), anyDouble()))
+                .willReturn(true, false);
 
+        // When - erster Payment-Aufruf bekommt true
+        Order firstOrder = orderService.placeOrder(new Order("123","abc", 10.00));
+
+        // Then
+        assertEquals("COMPLETED", firstOrder.getStatus());
+
+        // zweiter Payment-Aufruf bekommt false
+        assertThrows(
+                RuntimeException.class,
+                () -> orderService.placeOrder(new Order("123","abc", 10.00))
+        );
+    }
 
     // TODO: 2 - Use thenAnswer() for custom logic based on arguments.
     //  Stub paymentService.charge with thenAnswer:
@@ -50,6 +69,20 @@ class AdvancedMockingTest {
     //      });
     //  Test with amount 100 -> should succeed.
     //  Test with amount 1000 -> should throw RuntimeException.
+    @Test
+    void placeOrderWithCorrectAndIncorrectAmount() {
+        when(paymentService.charge(anyString(), anyDouble()))
+                .thenAnswer(invocation -> {
+                    double amount = invocation.getArgument(1);
+                    return amount <= 500.0;
+                });
+        Order firstOrder = orderService.placeOrder(new Order("abc","abc",100.00));
+        assertEquals("COMPLETED", firstOrder.getStatus());
+
+        assertThrows(
+                RuntimeException.class,
+                () -> orderService.placeOrder(new Order("abc","abc",100.00)));
+    }
 
 
     // TODO: 3 - Use InOrder to verify the exact sequence of method calls.
@@ -61,6 +94,18 @@ class AdvancedMockingTest {
     //  inOrder.verify(orderRepository).save(any(Order.class));
     //  inOrder.verifyNoMoreInteractions();
 
+    @Test
+    void verifyExactSequenceOfMethodCalls() {
+        when(paymentService.charge(anyString(),anyDouble())).thenReturn(true);
+        InOrder inOrder = inOrder(paymentService, orderRepository);
+        orderService.placeOrder(new Order("abc", "abc", 50.00));
+
+        inOrder.verify(paymentService).charge(any(),anyDouble());
+        inOrder.verify(orderRepository).save(any(Order.class));
+        inOrder.verifyNoMoreInteractions();
+    }
+
+
 
     // TODO: 4 - Use doNothing().when() for void methods.
     //  doNothing() is the default for void methods on mocks, but it's explicit:
@@ -68,7 +113,13 @@ class AdvancedMockingTest {
     //  Stub paymentService.charge to return true.
     //  Place an order and verify save was called.
     //  Note: doNothing() is useful when you want to be explicit or override previous stubbing.
-
+    @Test
+    void testDoNothing() {
+        doNothing().when(orderRepository).save(any(Order.class));
+        when(paymentService.charge(anyString(),anyDouble())).thenReturn(true);
+        orderService.placeOrder(new Order("abc","abc",100.00));
+        verify(orderRepository).save(any(Order.class));
+    }
 
     // TODO: 5 - Use doThrow().when() for void methods that should throw.
     //  Make orderRepository.save throw an exception:

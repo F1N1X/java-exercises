@@ -37,6 +37,7 @@ class ShippingCostCalculatorTest {
     //  Then implement the domestic calculation in ShippingCostCalculator.
 
 
+
     // TODO: 2 - Test international shipping cost calculation.
     //  A 10 kg international package should cost: $15.00 + (10 * $1.50) = $30.00.
     //  Assert that calculate(10, "international") equals 30.0.
